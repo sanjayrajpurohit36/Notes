@@ -10,12 +10,14 @@ const Sidebar = (props) => {
     const {onSubmitClick = () => {}} = props;
 
     const onSubmit = () => {
-        let taskObj = {
-            name,
-            desc,
-            color,
+        if(name.length && desc.length && color.length){
+            let taskObj = {
+                name,
+                desc,
+                color,
+            }
+            onSubmitClick(taskObj);
         }
-        onSubmitClick(taskObj);
         setName("");
         setDesc("");
         setColor("")
