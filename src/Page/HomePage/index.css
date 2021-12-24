@@ -1,0 +1,12 @@
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.task-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 20rem;
+    overflow-y: auto;
+    background: lightgrey;
+}

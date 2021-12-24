@@ -1,0 +1,13 @@
+.card-wrapper {
+    width: 5rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+    border: 0.12rem grey;
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

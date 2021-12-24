@@ -1,0 +1,11 @@
+.color-tag-wrapper {
+    display: flex;
+    gap: 1rem;
+}
+
+.circle {
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+}
