@@ -33,7 +33,7 @@ const Sidebar = (props) => {
             <div className="color-tag-wrapper">
                 {
                     Object.keys(colors).map((value, key) => {
-                        return <div className="circle" id={value} key={value} style={{background:colors[value]}} onClick={(e) => setColor(colors[e.target.id])}></div>
+                        return <div className="circle" id={value} key={value} style={{background:colors[value], border: color === colors[value] ? '2px solid black': ''  }} onClick={(e) => setColor(colors[e.target.id])}></div>
                     }) 
                 }
             </div>

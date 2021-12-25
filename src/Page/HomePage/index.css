@@ -1,6 +1,10 @@
 .sidebar-wrapper {
     display: flex;
     flex-direction: column;
+    width: 20rem;
+    float: right;
+    padding: 1rem;
+    border: 1px solid black;
 }
 .task-card-wrapper {
     display: flex;

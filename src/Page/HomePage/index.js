@@ -3,6 +3,7 @@ import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import './index.css';
+
 const HomePage = () => {
     const [taskData, setTaskData] = useState([]);
     
@@ -22,7 +23,7 @@ const HomePage = () => {
         </div>
         <div className="task-card-wrapper">
           { taskData.map((value, key) => {
-              return <Card data={value}/>
+              return <Card data={value} key={key+'card'}/>
             })
           }
         </div>
