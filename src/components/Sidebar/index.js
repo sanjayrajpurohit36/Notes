@@ -30,44 +30,56 @@ const Sidebar = (props) => {
       <div className="close-icon" onClick={() => onClose()}>
         <img src={Close} alt="cross icon" />
       </div>
-      <label htmlFor="task-name">Name</label>
-      <input
-        placeholder="name"
-        name="taskname"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+      <div className="task-form-wrapper">
 
-      <label htmlFor="task-description">Description</label>
-      <input
-        placeholder="description"
-        name="taskdescription"
-        value={desc}
-        onChange={(e) => setDesc(e.target.value)}
-      />
-      <div className="color-tag-wrapper">
-        {Object.keys(colors).map((value, key) => {
-          return (
-            <div
-              className="circle"
-              id={value}
-              key={value}
-              style={{
-                background: colors[value],
-                border: color === colors[value] ? "2px solid black" : "",
-              }}
-              onClick={(e) => setColor(colors[e.target.id])}
-            ></div>
-          );
-        })}
+        <div className="input-wrapper">
+          {/* <label htmlFor="task-name">Name</label> */}
+          <input
+            className="input"
+            placeholder="Name"
+            name="taskname"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <div className="input-wrapper">
+          {/* <label htmlFor="task-description">Description</label> */}
+          <input
+            className="input"
+            placeholder="Description"
+            name="taskdescription"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+        </div>
+        <div className="color-tag-wrapper">
+          {Object.keys(colors).map((value, key) => {
+            return (
+              <div
+                className="circle"
+                id={value}
+                key={value}
+                style={{
+                  background: colors[value],
+                  border: color === colors[value] ? "2px solid black" : "",
+                }}
+                onClick={(e) => setColor(colors[e.target.id])}
+              ></div>
+            );
+          })}
+        </div>
+        <div className="submit-btn-wrapper">
+          <Button
+            className="btn submit-btn"
+            btnCallback={() => {
+              onSubmit();
+            }}
+          >
+            Submit
+          </Button>
+        </div>
       </div>
-      <Button
-        btnCallback={() => {
-          onSubmit();
-        }}
-      >
-        Submit
-      </Button>
     </div>
   );
 };

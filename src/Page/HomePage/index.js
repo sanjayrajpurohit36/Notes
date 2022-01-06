@@ -48,6 +48,7 @@ const HomePage = () => {
       </Button>
       <div className="search-wrapper">
         <input
+          className="input"
           placeholder="description"
           name="taskdescription"
           onChange={(e) => searchNotes(e.target.value)}
