@@ -39,30 +39,42 @@ const HomePage = () => {
 
   return (
     <>
-      <Button
-        btnCallback={() => setIsShowSideModal(true)}
-        btnClassName="test"
-        btnstyle={{ cursor: "pointer" }}
-      >
-        Add +
-      </Button>
-      <div className="search-wrapper">
-        <input
-          className="input"
-          placeholder="description"
-          name="taskdescription"
-          onChange={(e) => searchNotes(e.target.value)}
-        ></input>
-      </div>
+      <header className="header-container">
+        <div className="header-content-wrapper">
+          <input
+            className="header-search-input"
+            placeholder="Search"
+            name="taskdescription"
+            onChange={(e) => searchNotes(e.target.value)}
+          ></input>
+          <Button
+            btnCallback={() => setIsShowSideModal(true)}
+            btnClassName="header-addTask-btn"
+          >
+            Add +
+          </Button>
+        </div>
+      </header>
       <Sidebar
         onSubmitClick={(data) => getTaskData(data)}
         isShow={isShowSideModal}
         onClose={toggleSideModal}
       />
-      <div className="task-card-wrapper">
-        {filteredData.map((value, key) => {
-          return <Card data={value} key={key + "card"} />;
-        })}
+      <div className="task-card-container">
+        {
+          <section className="card-list-container">
+            {filteredData && filteredData.length > 0 ? (
+              filteredData.map((value, key) => {
+                return <Card data={value} key={key + "card"} />;
+              })
+            ) : (
+              <div className="no-data-found-wrapper">
+                <h1> Oops! No Data Found</h1>
+                <p>Please try searching another data.</p>
+              </div>
+            )}
+          </section>
+        }
       </div>
     </>
   );

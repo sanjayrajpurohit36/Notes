@@ -4,6 +4,7 @@
   top: 0;
   right: -100%;
   opacity: 0;
+  display: none;
 
   display: flex;
   flex-direction: column;
@@ -14,7 +15,7 @@
   background: rgb(179, 179, 190);
   border: 1px solid black;
 
-  transition: all 0.6s ease-in-out;
+  transition: all 1s ease;
 }
 
 .show {
