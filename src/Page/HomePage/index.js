@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
+import Overlay from "./../../components/Overlay";
 import "./index.css";
 
 const HomePage = () => {
@@ -60,6 +61,7 @@ const HomePage = () => {
         isShow={isShowSideModal}
         onClose={toggleSideModal}
       />
+      {isShowSideModal && <Overlay />}
       <div className="task-card-container">
         {
           <section className="card-list-container">
