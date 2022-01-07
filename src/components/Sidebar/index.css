@@ -14,7 +14,7 @@
   padding: 1rem;
   background: rgb(179, 179, 190);
   border: 1px solid black;
-
+  z-index: 1;
   transition: all 1s ease;
 }
 
