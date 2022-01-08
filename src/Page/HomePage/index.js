@@ -63,6 +63,18 @@ const HomePage = () => {
     );
   };
 
+  const showMessage = () => {
+    return taskData && taskData.length > 0 ? (
+      <div className="no-data-found-wrapper">
+        <h1> Oops! No Data Found</h1>
+        <p>Please try searching another data.</p>
+      </div>
+    ) : (
+      <div>
+        <h1>Try adding tasks!</h1>
+      </div>
+    );
+  };
   return (
     <>
       <header className="header-container">
@@ -93,16 +105,11 @@ const HomePage = () => {
       <div className="task-card-container">
         {
           <section className="card-list-container">
-            {filteredData && filteredData.length > 0 ? (
-              filteredData.map((value, key) => {
-                return <Card data={value} key={key + "card"} />;
-              })
-            ) : (
-              <div className="no-data-found-wrapper">
-                <h1> Oops! No Data Found</h1>
-                <p>Please try searching another data.</p>
-              </div>
-            )}
+            {filteredData && filteredData.length > 0
+              ? filteredData.map((value, key) => {
+                  return <Card data={value} key={key + "card"} />;
+                })
+              : showMessage()}
           </section>
         }
       </div>

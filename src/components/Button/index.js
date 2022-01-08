@@ -1,12 +1,18 @@
 import "./index.css";
 
 const Button = (props) => {
-  const { btnCallback = () => {}, btnStyles = {}, btnClassName = "" } = props;
+  const {
+    btnCallback = () => {},
+    btnStyles = {},
+    btnClassName = "",
+    isDisable,
+  } = props;
   return (
     <>
       <button
         onClick={() => btnCallback()}
         className={`btn ${btnClassName.length ? btnClassName : ""}`}
+        disabled={isDisable}
       >
         {props.children}
       </button>
@@ -14,4 +20,7 @@ const Button = (props) => {
   );
 };
 
+Button.defaultProps = {
+  isDisable: false,
+};
 export default Button;
