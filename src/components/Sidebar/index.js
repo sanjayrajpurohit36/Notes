@@ -74,6 +74,9 @@ const Sidebar = (props) => {
             btnCallback={() => {
               onSubmit();
             }}
+            isDisable={
+              name.length && desc.length && color.length ? false : true
+            }
           >
             Submit
           </Button>
