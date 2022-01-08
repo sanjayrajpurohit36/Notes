@@ -1,102 +1,60 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useRef } from "react";
 import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import Overlay from "./../../components/Overlay";
 import colors from "./../../utils/colors.json";
-// import { useTaskData } from "./HomePage";
 import "./index.css";
 
 let colorCode = "";
+let taskData = [];
 
 const HomePage = () => {
   const [isShowSideModal, setIsShowSideModal] = useState(false);
-  const [taskData, setTaskData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  // const [color, setColor] = useState("");
-  // const [searchText, setSearchText] = useState("");
-
+  const myRef = useRef(null);
   const toggleSideModal = () => {
     setIsShowSideModal(!isShowSideModal);
   };
 
-  const getTaskData = useCallback(
-    (newTaskdata) => {
-      console.log("data in page", newTaskdata);
-      setIsShowSideModal(false);
-      setTaskData([...taskData, newTaskdata]);
-      setFilteredData([...taskData, newTaskdata]);
-      colorCode = "";
-      // localStorage.taskData = JSON.stringify(taskData);
-    },
-    [taskData]
-  );
+  const getTaskData = (newTaskData) => {
+    setIsShowSideModal(false);
+    taskData.push(newTaskData);
+    setFilteredData([...taskData]);
+    colorCode = "";
+    // localStorage.taskData = JSON.stringify(taskData);
+  };
 
   const searchNotes = (searchText, color) => {
-    console.log("search text => ", searchText, color);
     colorCode = color;
-    console.log(taskData);
-    if (searchText.trim().length > 0 && color.length > 0) {
-      let searchedNotes = [];
-      searchedNotes = taskData.filter((value, key) => {
-        return (
-          value["name"]
-            .trim()
-            .toLowerCase()
-            .includes(searchText.trim().toLowerCase()) &&
-          value["color"] === color
-        );
-      });
-      setFilteredData(searchedNotes);
-    } else if (searchText.trim().length > 0) {
-      let searchedNotes = [];
-      searchedNotes = taskData.filter((value, key) =>
+
+    let searchedNotes = taskData;
+    if (searchText.trim().length > 0) {
+      searchedNotes = searchedNotes.filter((value, key) =>
         value["name"]
           .trim()
           .toLowerCase()
           .includes(searchText.trim().toLowerCase())
       );
-      console.log(searchedNotes);
-      setFilteredData(searchedNotes);
-    } else if (color.length > 0) {
+    }
+
+    if (color.length > 0) {
       console.log("=>", color, Object.keys(colors), Object.values(colors));
-      let searchedNotes = [];
-      searchedNotes = taskData.filter((value, key) => value["color"] === color);
-      console.log(searchedNotes);
-      setFilteredData(searchedNotes);
-    } else {
+      searchedNotes = searchedNotes.filter(
+        (value, key) => value["color"] === color
+      );
+    }
+
+    setFilteredData(searchedNotes);
+    if (color.length === 0 && searchText.length === 0) {
       setFilteredData(taskData);
-      // setColor("");
     }
   };
 
-  // const searchNotes = (searchText) => {
-  //   // if (searchText.trim() !== "") {
-  //   console.log("search text => ", searchText, searchText.length);
-  //   console.log(taskData);
-  //   if (searchText.trim().length !== 0) {
-  //     let setData = filteredData.length ? filteredData : taskData;
-  //     setSearchText(searchText);
-  //     let searchedNotes = [];
-  //     searchedNotes = setData.filter((value, key) => {
-  //       return value["name"]
-  //         .trim()
-  //         .toLowerCase()
-  //         .includes(searchText.trim().toLowerCase());
-  //     });
-  //     console.log(searchedNotes);
-  //     setFilteredData(searchedNotes);
-  //   } else {
-  //     setFilteredData(taskData);
-  //     setColor("");
-  //   }
-  // };
-
   const resetFilters = () => {
+    myRef.current.value = "";
     setFilteredData(taskData);
     colorCode = "";
-    // setColor("");
-    // setSearchText("");
   };
 
   const renderColorFilters = () => {
@@ -143,7 +101,7 @@ const HomePage = () => {
               className="header-search-input"
               placeholder="Search"
               name="taskdescription"
-              // value={searchText}
+              ref={myRef}
               onChange={(e) => searchNotes(e.target.value.trim(), colorCode)}
             ></input>
             <Button
