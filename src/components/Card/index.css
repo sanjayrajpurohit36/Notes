@@ -1,13 +1,12 @@
 .card-wrapper {
-  /* width: 5rem; */
-  /* height: 2rem; */
-  border-radius: 0.4rem;
-  border: 0.12rem grey;
+  border-radius: 0.2rem;
+  border: 0.12rem solid black;
   color: white;
   font-size: 1rem;
-  padding: 1rem;
-  text-align: center;
+  padding: 0.5rem;
+  text-align: left;
 }
+
 .task-name {
   padding: 0.5rem;
 }
@@ -17,4 +16,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.timestamp {
+  font-size: 0.7rem;
+  text-align: right;
+  color: black;
+  opacity: 0.8;
 }
