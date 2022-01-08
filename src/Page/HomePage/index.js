@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
@@ -7,28 +7,48 @@ import colors from "./../../utils/colors.json";
 // import { useTaskData } from "./HomePage";
 import "./index.css";
 
+let colorCode = "";
+
 const HomePage = () => {
   const [isShowSideModal, setIsShowSideModal] = useState(false);
   const [taskData, setTaskData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [color, setColor] = useState("");
+  // const [color, setColor] = useState("");
+  // const [searchText, setSearchText] = useState("");
 
   const toggleSideModal = () => {
     setIsShowSideModal(!isShowSideModal);
   };
 
-  const getTaskData = (newTaskdata) => {
-    console.log("data in page", newTaskdata);
-    setIsShowSideModal(false);
-    setTaskData([...taskData, newTaskdata]);
-    setFilteredData([...taskData, newTaskdata]);
-    // localStorage.taskData = JSON.stringify(taskData);
-  };
+  const getTaskData = useCallback(
+    (newTaskdata) => {
+      console.log("data in page", newTaskdata);
+      setIsShowSideModal(false);
+      setTaskData([...taskData, newTaskdata]);
+      setFilteredData([...taskData, newTaskdata]);
+      colorCode = "";
+      // localStorage.taskData = JSON.stringify(taskData);
+    },
+    [taskData]
+  );
 
-  const searchNotes = (searchText) => {
-    if (searchText.trim() !== "") {
-      console.log("search text => ", searchText, searchText.length);
-      console.log(taskData);
+  const searchNotes = (searchText, color) => {
+    console.log("search text => ", searchText, color);
+    colorCode = color;
+    console.log(taskData);
+    if (searchText.trim().length > 0 && color.length > 0) {
+      let searchedNotes = [];
+      searchedNotes = taskData.filter((value, key) => {
+        return (
+          value["name"]
+            .trim()
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase()) &&
+          value["color"] === color
+        );
+      });
+      setFilteredData(searchedNotes);
+    } else if (searchText.trim().length > 0) {
       let searchedNotes = [];
       searchedNotes = taskData.filter((value, key) =>
         value["name"]
@@ -38,7 +58,45 @@ const HomePage = () => {
       );
       console.log(searchedNotes);
       setFilteredData(searchedNotes);
-    } else setFilteredData(taskData);
+    } else if (color.length > 0) {
+      console.log("=>", color, Object.keys(colors), Object.values(colors));
+      let searchedNotes = [];
+      searchedNotes = taskData.filter((value, key) => value["color"] === color);
+      console.log(searchedNotes);
+      setFilteredData(searchedNotes);
+    } else {
+      setFilteredData(taskData);
+      // setColor("");
+    }
+  };
+
+  // const searchNotes = (searchText) => {
+  //   // if (searchText.trim() !== "") {
+  //   console.log("search text => ", searchText, searchText.length);
+  //   console.log(taskData);
+  //   if (searchText.trim().length !== 0) {
+  //     let setData = filteredData.length ? filteredData : taskData;
+  //     setSearchText(searchText);
+  //     let searchedNotes = [];
+  //     searchedNotes = setData.filter((value, key) => {
+  //       return value["name"]
+  //         .trim()
+  //         .toLowerCase()
+  //         .includes(searchText.trim().toLowerCase());
+  //     });
+  //     console.log(searchedNotes);
+  //     setFilteredData(searchedNotes);
+  //   } else {
+  //     setFilteredData(taskData);
+  //     setColor("");
+  //   }
+  // };
+
+  const resetFilters = () => {
+    setFilteredData(taskData);
+    colorCode = "";
+    // setColor("");
+    // setSearchText("");
   };
 
   const renderColorFilters = () => {
@@ -53,9 +111,9 @@ const HomePage = () => {
               key={value}
               style={{
                 background: colors[value],
-                border: color === colors[value] ? "2px solid black" : "",
+                border: colorCode === colors[value] ? "2px solid black" : "",
               }}
-              onClick={(e) => setColor(colors[e.target.id])}
+              onClick={(e) => searchNotes("", colors[e.target.id])}
             ></div>
           );
         })}
@@ -75,6 +133,7 @@ const HomePage = () => {
       </div>
     );
   };
+
   return (
     <>
       <header className="header-container">
@@ -84,7 +143,8 @@ const HomePage = () => {
               className="header-search-input"
               placeholder="Search"
               name="taskdescription"
-              onChange={(e) => searchNotes(e.target.value)}
+              // value={searchText}
+              onChange={(e) => searchNotes(e.target.value.trim(), colorCode)}
             ></input>
             <Button
               btnCallback={() => setIsShowSideModal(true)}
@@ -94,14 +154,20 @@ const HomePage = () => {
             </Button>
           </div>
           {renderColorFilters()}
+          <Button
+            btnCallback={() => resetFilters(true)}
+            btnClassName="header-addTask-btn"
+          >
+            Reset
+          </Button>
         </div>
       </header>
+
       <Sidebar
         onSubmitClick={(data) => getTaskData(data)}
         isShow={isShowSideModal}
         onClose={toggleSideModal}
       />
-      {isShowSideModal && <Overlay />}
       <div className="task-card-container">
         {
           <section className="card-list-container">
