@@ -3,12 +3,15 @@ import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import Overlay from "./../../components/Overlay";
+import colors from "./../../utils/colors.json";
+// import { useTaskData } from "./HomePage";
 import "./index.css";
 
 const HomePage = () => {
   const [isShowSideModal, setIsShowSideModal] = useState(false);
   const [taskData, setTaskData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [color, setColor] = useState("");
 
   const toggleSideModal = () => {
     setIsShowSideModal(!isShowSideModal);
@@ -38,22 +41,47 @@ const HomePage = () => {
     } else setFilteredData(taskData);
   };
 
+  const renderColorFilters = () => {
+    return (
+      <section className="color-tag-wrapper--filter">
+        <p>Color Filters</p>
+        {Object.keys(colors).map((value, key) => {
+          return (
+            <div
+              className="circle"
+              id={value}
+              key={value}
+              style={{
+                background: colors[value],
+                border: color === colors[value] ? "2px solid black" : "",
+              }}
+              onClick={(e) => setColor(colors[e.target.id])}
+            ></div>
+          );
+        })}
+      </section>
+    );
+  };
+
   return (
     <>
       <header className="header-container">
         <div className="header-content-wrapper">
-          <input
-            className="header-search-input"
-            placeholder="Search"
-            name="taskdescription"
-            onChange={(e) => searchNotes(e.target.value)}
-          ></input>
-          <Button
-            btnCallback={() => setIsShowSideModal(true)}
-            btnClassName="header-addTask-btn"
-          >
-            Add +
-          </Button>
+          <div className="header-search-bar-btn-wrapper">
+            <input
+              className="header-search-input"
+              placeholder="Search"
+              name="taskdescription"
+              onChange={(e) => searchNotes(e.target.value)}
+            ></input>
+            <Button
+              btnCallback={() => setIsShowSideModal(true)}
+              btnClassName="header-addTask-btn"
+            >
+              Add +
+            </Button>
+          </div>
+          {renderColorFilters()}
         </div>
       </header>
       <Sidebar

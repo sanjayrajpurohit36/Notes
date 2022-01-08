@@ -31,7 +31,6 @@ const Sidebar = (props) => {
         <img src={Close} alt="cross icon" />
       </div>
       <div className="task-form-wrapper">
-
         <div className="input-wrapper">
           {/* <label htmlFor="task-name">Name</label> */}
           <input
