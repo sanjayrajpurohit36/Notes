@@ -53,6 +53,23 @@
   right: 15px;
   top: 10px;
   cursor: pointer;
+  background: rgb(197, 197, 230);
+}
+
+.tag-section {
+  padding: 1rem;
+  width: 100%;
+}
+
+.tag-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  /* background: red; */
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .close-icon > img {
@@ -70,6 +87,7 @@
   border: none;
   border-radius: 0.2rem;
   outline: none;
+  width: 100%;
 }
 
 .btn {

@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import colors from "./../../utils/colors.json";
 import Button from "./../Button";
 import Close from "./../../assets/image/close.png";
+import Tag from "./../../components/Tag";
 import "./index.css";
 
 const Sidebar = (props) => {
-  const { isShow, onClose } = props;
+  const { isShow, onClose, onSubmitClick = () => {} } = props;
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [color, setColor] = useState("");
-  const { onSubmitClick = () => {} } = props;
+  const [tagList, setTagList] = useState({});
+  const myTagRef = useRef(null);
+
+  const addTags = (tagValue) => {
+    let newTag = { [tagValue]: tagValue };
+    myTagRef.current.value = "";
+    setTagList({ ...tagList, ...newTag });
+  };
+
+  const removeTag = (element) => {
+    let property = element.target.parentElement.parentElement.innerText;
+    let newTagList = Object.assign({}, tagList);
+    delete newTagList[property];
+    setTagList({ ...newTagList });
+  };
 
   const onSubmit = () => {
     if (name.length && desc.length && color.length) {
@@ -68,6 +83,30 @@ const Sidebar = (props) => {
             );
           })}
         </div>
+
+        <div className="tag-section">
+          <div className="tag-container">
+            {tagList &&
+              Object.keys(tagList).length > 0 &&
+              Object.keys(tagList).map((tagText, key) => (
+                <Tag
+                  tagName={tagText}
+                  id={tagText + "-" + key}
+                  onCrossClick={(e) => removeTag(e, key)}
+                />
+              ))}
+          </div>
+          <input
+            className="input input-tag"
+            placeholder="Add tag..."
+            name="taskname"
+            ref={myTagRef}
+            onKeyDown={(e) => {
+              (e.key === " " || e.key === "Enter") && addTags(e.target.value);
+            }}
+          />
+        </div>
+
         <div className="submit-btn-wrapper">
           <Button
             className="btn submit-btn"
