@@ -7,7 +7,7 @@ const Tag = (props) => {
   return (
     <div className="tag-wrapper">
       <div className="tag-content">{tagName}</div>
-      <div className="tag-close-icon" onClick={() => onCrossClick()}>
+      <div className="tag-close-icon" onClick={(e) => onCrossClick(e)}>
         <img src={Close} alt="cross icon" />
       </div>
     </div>
