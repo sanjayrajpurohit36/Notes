@@ -3,6 +3,7 @@ import colors from "./../../utils/colors.json";
 import Button from "./../Button";
 import Close from "./../../assets/image/close.png";
 import Tag from "./../../components/Tag";
+import { checkContent } from "./../../utils/regexHelper";
 import "./index.css";
 
 const Sidebar = (props) => {
@@ -16,9 +17,12 @@ const Sidebar = (props) => {
   const myTagRef = useRef(null);
 
   const addTags = (tagValue) => {
-    let newTag = { [tagValue]: tagValue };
+    debugger;
+    if (tagValue.length && tagValue.isAlphaNumeric) {
+      let newTag = { [tagValue.trim()]: tagValue.trim() };
+      setTagList({ ...tagList, ...newTag });
+    }
     myTagRef.current.value = "";
-    setTagList({ ...tagList, ...newTag });
   };
 
   const removeTag = (element) => {
@@ -29,11 +33,25 @@ const Sidebar = (props) => {
   };
 
   const onSubmit = () => {
-    if (Object.keys(taskObj).length === 3) {
+    if (
+      Object.keys(taskObj).length === 3 &&
+      taskObj["name"].trim().length &&
+      taskObj["description"].trim().length
+    ) {
       onSubmitClick(taskObj);
     }
-    debugger;
-    setTaskObj({});
+    setTaskObj({
+      name: "",
+      color: "",
+      description: "",
+    });
+  };
+
+  const updateTaskObj = (key, value) => {
+    if (["name", "description"].includes(key) && value.length) {
+      let isAlright = checkContent(value);
+      isAlright && setTaskObj({ ...taskObj, [key]: value });
+    } else setTaskObj({ ...taskObj, [key]: value });
   };
 
   return (
@@ -47,8 +65,8 @@ const Sidebar = (props) => {
             className="input"
             placeholder="Name"
             name="taskname"
-            value={taskObj["name"]}
-            onChange={(e) => setTaskObj({ ...taskObj, name: e.target.value })}
+            value={taskObj["name"] || ""}
+            onChange={(e) => updateTaskObj("name", e.target.value)}
           />
         </div>
 
@@ -58,9 +76,7 @@ const Sidebar = (props) => {
             placeholder="Description"
             name="taskdescription"
             value={taskObj["description"]}
-            onChange={(e) =>
-              setTaskObj({ ...taskObj, description: e.target.value })
-            }
+            onChange={(e) => updateTaskObj("description", e.target.value)}
           />
         </div>
         <div className="color-tag-wrapper">
@@ -76,7 +92,7 @@ const Sidebar = (props) => {
                     taskObj["color"] === colors[value] ? "2px solid black" : "",
                 }}
                 value={taskObj["color"]}
-                onClick={() => setTaskObj({ ...taskObj, color: colors[value] })}
+                onClick={() => updateTaskObj("color", colors[value])}
               ></div>
             );
           })}
