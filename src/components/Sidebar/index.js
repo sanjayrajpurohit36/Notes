@@ -7,9 +7,11 @@ import "./index.css";
 
 const Sidebar = (props) => {
   const { isShow, onClose, onSubmitClick = () => {} } = props;
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [color, setColor] = useState("");
+  const [taskObj, setTaskObj] = useState({
+    name: "",
+    color: "",
+    description: "",
+  });
   const [tagList, setTagList] = useState({});
   const myTagRef = useRef(null);
 
@@ -27,17 +29,11 @@ const Sidebar = (props) => {
   };
 
   const onSubmit = () => {
-    if (name.length && desc.length && color.length) {
-      let taskObj = {
-        name,
-        desc,
-        color,
-      };
+    if (Object.keys(taskObj).length === 3) {
       onSubmitClick(taskObj);
     }
-    setName("");
-    setDesc("");
-    setColor("");
+    debugger;
+    setTaskObj({});
   };
 
   return (
@@ -47,24 +43,24 @@ const Sidebar = (props) => {
       </div>
       <div className="task-form-wrapper">
         <div className="input-wrapper">
-          {/* <label htmlFor="task-name">Name</label> */}
           <input
             className="input"
             placeholder="Name"
             name="taskname"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={taskObj["name"]}
+            onChange={(e) => setTaskObj({ ...taskObj, name: e.target.value })}
           />
         </div>
 
         <div className="input-wrapper">
-          {/* <label htmlFor="task-description">Description</label> */}
           <input
             className="input"
             placeholder="Description"
             name="taskdescription"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            value={taskObj["description"]}
+            onChange={(e) =>
+              setTaskObj({ ...taskObj, description: e.target.value })
+            }
           />
         </div>
         <div className="color-tag-wrapper">
@@ -76,9 +72,11 @@ const Sidebar = (props) => {
                 key={value}
                 style={{
                   background: colors[value],
-                  border: color === colors[value] ? "2px solid black" : "",
+                  border:
+                    taskObj["color"] === colors[value] ? "2px solid black" : "",
                 }}
-                onClick={(e) => setColor(colors[e.target.id])}
+                value={taskObj["color"]}
+                onClick={() => setTaskObj({ ...taskObj, color: colors[value] })}
               ></div>
             );
           })}
@@ -113,9 +111,7 @@ const Sidebar = (props) => {
             btnCallback={() => {
               onSubmit();
             }}
-            isDisable={
-              name.length && desc.length && color.length ? false : true
-            }
+            isDisable={Object.keys(taskObj).length < 3 ? true : false}
           >
             Submit
           </Button>

@@ -4,6 +4,7 @@ import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import Overlay from "./../../components/Overlay";
 import colors from "./../../utils/colors.json";
+
 import "./index.css";
 
 let colorCode = "";

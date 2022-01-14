@@ -24,3 +24,9 @@
   color: black;
   opacity: 0.8;
 }
+
+.tags-section {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
