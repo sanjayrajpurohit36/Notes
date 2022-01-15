@@ -12,29 +12,20 @@ const Sidebar = (props) => {
     name: "",
     color: "",
     description: "",
+    tags: {},
   });
-  const [tagList, setTagList] = useState({});
   const myTagRef = useRef(null);
-
-  const addTags = (tagValue) => {
-    tagValue = tagValue.trim();
-    if (tagValue.length) {
-      let newTag = { [tagValue]: tagValue };
-      setTagList({ ...tagList, ...newTag });
-    }
-    myTagRef.current.value = "";
-  };
 
   const removeTag = (element) => {
     let property = element.target.parentElement.parentElement.innerText;
-    let newTagList = Object.assign({}, tagList);
+    let newTagList = Object.assign({}, taskObj["tags"]);
     delete newTagList[property];
-    setTagList({ ...newTagList });
+    setTaskObj({ ...taskObj, tags: newTagList });
   };
 
   const onSubmit = () => {
     if (
-      Object.keys(taskObj).length === 3 &&
+      Object.keys(taskObj).length >= 3 &&
       taskObj["name"].trim().length &&
       taskObj["description"].trim().length
     )
@@ -43,9 +34,19 @@ const Sidebar = (props) => {
   };
 
   const updateTaskObj = (key, value) => {
-    if (["name", "description"].includes(key) && value.length) {
+    if (["name", "description"].includes(key) && value.trim().length) {
       let isAlright = checkContent(value);
       isAlright && setTaskObj({ ...taskObj, [key]: value });
+    } else if (key === "tags") {
+      value = value.trim();
+      if (value.length) {
+        let newTag = { [value]: value };
+        setTaskObj({
+          ...taskObj,
+          [key]: { ...taskObj[key], ...newTag },
+        });
+      }
+      myTagRef.current.value = "";
     } else setTaskObj({ ...taskObj, [key]: value });
   };
 
@@ -59,8 +60,8 @@ const Sidebar = (props) => {
       name: "",
       color: "",
       description: "",
+      tags: {},
     });
-    setTagList({});
   };
   return (
     <div className={`side-bar-wrapper ${isShow ? "show" : "hide"}`}>
@@ -108,9 +109,9 @@ const Sidebar = (props) => {
 
         <div className="tag-section">
           <div className="tag-container">
-            {tagList &&
-              Object.keys(tagList).length > 0 &&
-              Object.keys(tagList).map((tagText, key) => (
+            {taskObj &&
+              Object.keys(taskObj["tags"]).length > 0 &&
+              Object.keys(taskObj["tags"]).map((tagText, key) => (
                 <Tag
                   tagName={tagText}
                   id={tagText + "-" + key}
@@ -124,7 +125,8 @@ const Sidebar = (props) => {
             name="taskname"
             ref={myTagRef}
             onKeyDown={(e) => {
-              (e.key === " " || e.key === "Enter") && addTags(e.target.value);
+              (e.key === " " || e.key === "Enter") &&
+                updateTaskObj("tags", e.target.value);
             }}
           />
         </div>
