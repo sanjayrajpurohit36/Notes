@@ -3,6 +3,7 @@ import colors from "./../../utils/colors.json";
 import Button from "./../Button";
 import Close from "./../../assets/image/close.png";
 import Tag from "./../../components/Tag";
+import { checkContent } from "./../../utils/regexHelper";
 import "./index.css";
 
 const Sidebar = (props) => {
@@ -11,34 +12,60 @@ const Sidebar = (props) => {
     name: "",
     color: "",
     description: "",
+    tags: {},
   });
-  const [tagList, setTagList] = useState({});
   const myTagRef = useRef(null);
-
-  const addTags = (tagValue) => {
-    let newTag = { [tagValue]: tagValue };
-    myTagRef.current.value = "";
-    setTagList({ ...tagList, ...newTag });
-  };
 
   const removeTag = (element) => {
     let property = element.target.parentElement.parentElement.innerText;
-    let newTagList = Object.assign({}, tagList);
+    let newTagList = Object.assign({}, taskObj["tags"]);
     delete newTagList[property];
-    setTagList({ ...newTagList });
+    setTaskObj({ ...taskObj, tags: newTagList });
   };
 
   const onSubmit = () => {
-    if (Object.keys(taskObj).length === 3) {
+    if (
+      Object.keys(taskObj).length >= 3 &&
+      taskObj["name"].trim().length &&
+      taskObj["description"].trim().length
+    )
       onSubmitClick(taskObj);
-    }
-    debugger;
-    setTaskObj({});
+    resetState();
   };
 
+  const updateTaskObj = (key, value) => {
+    if (["name", "description"].includes(key) && value.trim().length) {
+      let isAlright = checkContent(value);
+      isAlright && setTaskObj({ ...taskObj, [key]: value });
+    } else if (key === "tags") {
+      value = value.trim();
+      if (value.length) {
+        let newTag = { [value]: value };
+        setTaskObj({
+          ...taskObj,
+          [key]: { ...taskObj[key], ...newTag },
+        });
+      }
+      myTagRef.current.value = "";
+    } else setTaskObj({ ...taskObj, [key]: value });
+  };
+
+  const onCloseClick = () => {
+    onClose();
+    resetState();
+  };
+
+  const resetState = () => {
+    setTaskObj({
+      name: "",
+      color: "",
+      description: "",
+      tags: {},
+    });
+  };
   return (
     <div className={`side-bar-wrapper ${isShow ? "show" : "hide"}`}>
-      <div className="close-icon" onClick={() => onClose()}>
+      <div className="close-icon" onClick={onCloseClick}>
         <img src={Close} alt="cross icon" />
       </div>
       <div className="task-form-wrapper">
@@ -47,8 +74,8 @@ const Sidebar = (props) => {
             className="input"
             placeholder="Name"
             name="taskname"
-            value={taskObj["name"]}
-            onChange={(e) => setTaskObj({ ...taskObj, name: e.target.value })}
+            value={taskObj["name"] || ""}
+            onChange={(e) => updateTaskObj("name", e.target.value)}
           />
         </div>
 
@@ -58,9 +85,7 @@ const Sidebar = (props) => {
             placeholder="Description"
             name="taskdescription"
             value={taskObj["description"]}
-            onChange={(e) =>
-              setTaskObj({ ...taskObj, description: e.target.value })
-            }
+            onChange={(e) => updateTaskObj("description", e.target.value)}
           />
         </div>
         <div className="color-tag-wrapper">
@@ -76,7 +101,7 @@ const Sidebar = (props) => {
                     taskObj["color"] === colors[value] ? "2px solid black" : "",
                 }}
                 value={taskObj["color"]}
-                onClick={() => setTaskObj({ ...taskObj, color: colors[value] })}
+                onClick={() => updateTaskObj("color", colors[value])}
               ></div>
             );
           })}
@@ -84,9 +109,9 @@ const Sidebar = (props) => {
 
         <div className="tag-section">
           <div className="tag-container">
-            {tagList &&
-              Object.keys(tagList).length > 0 &&
-              Object.keys(tagList).map((tagText, key) => (
+            {taskObj &&
+              Object.keys(taskObj["tags"]).length > 0 &&
+              Object.keys(taskObj["tags"]).map((tagText, key) => (
                 <Tag
                   tagName={tagText}
                   id={tagText + "-" + key}
@@ -100,7 +125,8 @@ const Sidebar = (props) => {
             name="taskname"
             ref={myTagRef}
             onKeyDown={(e) => {
-              (e.key === " " || e.key === "Enter") && addTags(e.target.value);
+              (e.key === " " || e.key === "Enter") &&
+                updateTaskObj("tags", e.target.value);
             }}
           />
         </div>
