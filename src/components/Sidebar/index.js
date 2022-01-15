@@ -17,9 +17,9 @@ const Sidebar = (props) => {
   const myTagRef = useRef(null);
 
   const addTags = (tagValue) => {
-    debugger;
-    if (tagValue.length && tagValue.isAlphaNumeric) {
-      let newTag = { [tagValue.trim()]: tagValue.trim() };
+    tagValue = tagValue.trim();
+    if (tagValue.length) {
+      let newTag = { [tagValue]: tagValue };
       setTagList({ ...tagList, ...newTag });
     }
     myTagRef.current.value = "";
@@ -37,14 +37,9 @@ const Sidebar = (props) => {
       Object.keys(taskObj).length === 3 &&
       taskObj["name"].trim().length &&
       taskObj["description"].trim().length
-    ) {
+    )
       onSubmitClick(taskObj);
-    }
-    setTaskObj({
-      name: "",
-      color: "",
-      description: "",
-    });
+    resetState();
   };
 
   const updateTaskObj = (key, value) => {
@@ -54,9 +49,22 @@ const Sidebar = (props) => {
     } else setTaskObj({ ...taskObj, [key]: value });
   };
 
+  const onCloseClick = () => {
+    onClose();
+    resetState();
+  };
+
+  const resetState = () => {
+    setTaskObj({
+      name: "",
+      color: "",
+      description: "",
+    });
+    setTagList({});
+  };
   return (
     <div className={`side-bar-wrapper ${isShow ? "show" : "hide"}`}>
-      <div className="close-icon" onClick={() => onClose()}>
+      <div className="close-icon" onClick={onCloseClick}>
         <img src={Close} alt="cross icon" />
       </div>
       <div className="task-form-wrapper">
