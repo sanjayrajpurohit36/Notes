@@ -2,8 +2,9 @@
   display: flex;
   height: 6rem;
   padding: 0 0.5rem;
-  /* background: #b762c1; */
   background: #ea99d5;
+  box-shadow: 1px 8px 15px 1px #ea99d5;
+  position: sticky;
 }
 
 .header-content-wrapper {
@@ -28,54 +29,47 @@
   padding: 0 0.5rem;
 }
 
-.color-tag-wrapper--filter {
-  display: flex;
-  gap: 1rem;
-  padding: 0.5rem 0;
-}
-
 .header-search-input {
-  padding: 0.5rem;
-  border-radius: 0.2rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid grey;
+  border-radius: 1.5rem;
   width: 100%;
   height: 2.8rem;
-  font-size: 1.2rem;
-  border: 2px solid grey;
+  font: 600 1rem LRoman;
+  letter-spacing: 0.09rem;
 }
 
 .header-addTask-btn {
   padding: 0.3rem 0.8rem;
-  font-size: 1rem;
   height: 100%;
 }
 
 .body-container {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
   height: calc(100% - 6rem);
   overflow-y: auto;
-
   background: #ffcddd;
   padding: 1rem;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
-.card-list-container > div {
-  margin-bottom: 1rem;
+.notes-icon-wrapper {
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 
-.card-list-container {
-  padding: 0.5rem;
+.notes-icon > img {
+  width: 100%;
   height: 100%;
-  width: 30rem;
-  overflow-y: auto;
 }
 
-@media only screen and (max-width: 768px) {
-  .color-tag-wrapper--filter {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem 0.5rem 0.5rem 0;
-  }
+.no-data-message {
+  font: 600 1rem LRoman;
+  text-align: left;
+  margin-top: 0.5rem;
+  letter-spacing: 0.09rem;
 }

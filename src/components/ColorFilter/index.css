@@ -1,0 +1,14 @@
+.color-tag-wrapper {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  font: 600 1.2rem LRoman;
+}
+
+@media only screen and (max-width: 768px) {
+  .color-tag-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
+}
