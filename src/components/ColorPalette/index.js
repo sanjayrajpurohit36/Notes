@@ -1,12 +1,17 @@
 import colors from "./../../utils/colors.json";
 import "./index.css";
 
-const ColorFilter = (props) => {
-  const { selectedColor, onColorClick = () => {} } = props;
+const ColorPalette = (props) => {
+  const {
+    selectedColor,
+    onColorClick = () => {},
+    title = "",
+    className = "",
+  } = props;
 
   return (
-    <section className="color-tag-wrapper">
-      <p>Color Filters</p>
+    <section className={`color-tag-wrapper ${className}`}>
+      <p>{title}</p>
       {Object.keys(colors).map((value, key) => {
         return (
           <div
@@ -24,4 +29,4 @@ const ColorFilter = (props) => {
   );
 };
 
-export default ColorFilter;
+export default ColorPalette;
