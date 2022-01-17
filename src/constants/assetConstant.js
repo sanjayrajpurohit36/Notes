@@ -1,9 +1,9 @@
 import CloseImg from "./../assets/image/close.png";
 import emptyNoteImg from "./../assets/image/emptynote.png";
 
-const assetConstant = {
+const imageConstant = {
   cross: CloseImg,
   emptyNote: emptyNoteImg,
 };
 
-export default assetConstant;
+export default imageConstant;
