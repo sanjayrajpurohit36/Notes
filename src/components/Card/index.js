@@ -7,8 +7,8 @@ const Card = (props) => {
 
   return (
     <div className="card-wrapper" style={{ background: color }}>
-      <div className="task-name">{`Task : ${name}`}</div>
-      <div className="task-desc">{`Description : ${description}`}</div>
+      <div className="name">{`Title : ${name}`}</div>
+      <div className="desc">{`Description : ${description}`}</div>
       <div className="timestamp">{`Created At : ${
         getTodaysDateAndTime()["date"] + ` ` + getTodaysDateAndTime()["time"]
       }`}</div>
