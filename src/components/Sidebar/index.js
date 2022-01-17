@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import colors from "./../../utils/colors.json";
 import Button from "./../Button";
-import Close from "./../../assets/image/close.png";
+import imageConstant from "./../../constants/assetConstant";
 import Tag from "./../../components/Tag";
 import { checkContent } from "./../../utils/regexHelper";
 import "./index.css";
@@ -15,6 +15,8 @@ const Sidebar = (props) => {
     tags: {},
   });
   const myTagRef = useRef(null);
+
+  const { cross } = imageConstant;
 
   const removeTag = (element) => {
     let property = element.target.parentElement.parentElement.innerText;
@@ -66,13 +68,13 @@ const Sidebar = (props) => {
   return (
     <div className={`side-bar-wrapper ${isShow ? "show" : "hide"}`}>
       <div className="close-icon" onClick={onCloseClick}>
-        <img src={Close} alt="cross icon" />
+        <img src={cross} alt="cross icon" />
       </div>
       <div className="task-form-wrapper">
         <div className="input-wrapper">
           <input
             className="input"
-            placeholder="Name"
+            placeholder="Title"
             name="taskname"
             value={taskObj["name"] || ""}
             onChange={(e) => updateTaskObj("name", e.target.value)}
@@ -80,13 +82,15 @@ const Sidebar = (props) => {
         </div>
 
         <div className="input-wrapper">
-          <input
-            className="input"
+          <textarea
+            className="input description-textarea"
             placeholder="Description"
             name="taskdescription"
             value={taskObj["description"]}
             onChange={(e) => updateTaskObj("description", e.target.value)}
-          />
+          >
+            Add Description
+          </textarea>
         </div>
         <div className="color-tag-wrapper">
           {Object.keys(colors).map((value, key) => {
