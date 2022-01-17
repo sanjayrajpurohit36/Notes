@@ -15,7 +15,6 @@ const ColorPalette = (props) => {
     <section className={`color-tag-wrapper ${className}`}>
       <span className="color-tag-wrapper--title">{title}</span>
       {Object.keys(colors).map((value, key) => {
-        console.log(colors[value]);
         return (
           <div
             className="color-tag-wrapper--circle"
