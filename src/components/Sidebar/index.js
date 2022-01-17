@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
-import colors from "./../../utils/colors.json";
 import Button from "./../Button";
-import imageConstant from "./../../constants/assetConstant";
 import Tag from "./../../components/Tag";
+import ColorPalette from "./../../components/ColorPalette";
+import imageConstant from "./../../constants/assetConstant";
 import { checkContent } from "./../../utils/regexHelper";
 import "./index.css";
 
@@ -92,24 +92,9 @@ const Sidebar = (props) => {
             Add Description
           </textarea>
         </div>
-        <div className="color-tag-wrapper">
-          {Object.keys(colors).map((value, key) => {
-            return (
-              <div
-                className="circle"
-                id={value}
-                key={value}
-                style={{
-                  background: colors[value],
-                  border:
-                    taskObj["color"] === colors[value] ? "2px solid black" : "",
-                }}
-                value={taskObj["color"]}
-                onClick={() => updateTaskObj("color", colors[value])}
-              ></div>
-            );
-          })}
-        </div>
+        <ColorPalette
+          onColorClick={(colorCode) => updateTaskObj("color", colorCode)}
+        />
 
         <div className="tag-section">
           <div className="tag-container">
