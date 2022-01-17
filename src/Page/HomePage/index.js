@@ -2,8 +2,7 @@ import { useState, useRef } from "react";
 import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
-import Overlay from "./../../components/Overlay";
-import colors from "./../../utils/colors.json";
+import ColorFilter from "../../components/ColorFilter";
 import imageConstant from "./../../constants/assetConstant";
 
 import "./index.css";
@@ -15,7 +14,7 @@ const HomePage = () => {
   const [isShowSideModal, setIsShowSideModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const myRef = useRef(null);
-  const { emptyIcon } = imageConstant;
+  const { emptyNote } = imageConstant;
   const toggleSideModal = () => {
     setIsShowSideModal(!isShowSideModal);
   };
@@ -59,28 +58,6 @@ const HomePage = () => {
     colorCode = "";
   };
 
-  const renderColorFilters = () => {
-    return (
-      <section className="color-tag-wrapper--filter">
-        <p>Color Filters</p>
-        {Object.keys(colors).map((value, key) => {
-          return (
-            <div
-              className="circle"
-              id={value}
-              key={value}
-              style={{
-                background: colors[value],
-                border: colorCode === colors[value] ? "2px solid black" : "",
-              }}
-              onClick={(e) => searchNotes("", colors[e.target.id])}
-            ></div>
-          );
-        })}
-      </section>
-    );
-  };
-
   const showEmptyDataMessage = () => {
     const displayMessageObj = {
       true: "Add your notes!",
@@ -88,7 +65,7 @@ const HomePage = () => {
     };
     return (
       <div className="notes-icon-wrapper">
-        <img src={emptyIcon} alt="notes icon" />
+        <img src={emptyNote} alt="notes icon" />
         {(!filteredData.length || !taskData.length) && (
           <p className="no-data-message">
             {displayMessageObj[taskData.length === 0] ||
@@ -128,7 +105,7 @@ const HomePage = () => {
               </Button>
             </div>
           </div>
-          {renderColorFilters()}
+          <ColorFilter />
         </div>
       </header>
 
