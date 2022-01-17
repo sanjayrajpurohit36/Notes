@@ -1,45 +1,62 @@
 .header-container {
   display: flex;
-  height: 11rem;
-  padding: 0.5rem;
+  height: 6rem;
+  padding: 0 0.5rem;
+  /* background: #b762c1; */
+  background: #ea99d5;
 }
 
 .header-content-wrapper {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.header-search-bar-btn-wrapper {
+  display: flex;
+}
+
+.header-search-wrapper {
+  width: 35rem;
+  margin-right: 2rem;
+}
+
+.header-search-btn-wrapper {
+  display: flex;
+  gap: 1rem;
+  padding: 0 0.5rem;
 }
 
 .color-tag-wrapper--filter {
   display: flex;
   gap: 1rem;
-  padding: 1rem 1rem 1rem 0;
+  padding: 0.5rem 0;
 }
 
 .header-search-input {
   padding: 0.5rem;
   border-radius: 0.2rem;
-  width: 35rem;
-  margin-right: 2rem;
+  width: 100%;
   height: 2.8rem;
   font-size: 1.2rem;
   border: 2px solid grey;
 }
 
 .header-addTask-btn {
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  width: 5rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 1rem;
   height: 100%;
 }
 
-.task-card-container {
+.body-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: calc(100% - 11rem);
+  height: calc(100% - 6rem);
   overflow-y: auto;
-  background: lightgrey;
+
+  background: #ffcddd;
   padding: 1rem;
   align-items: center;
 }
@@ -53,4 +70,12 @@
   height: 100%;
   width: 30rem;
   overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .color-tag-wrapper--filter {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
 }

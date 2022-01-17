@@ -24,3 +24,18 @@ body {
   margin: 0;
   height: 100%;
 }
+
+@font-face {
+  font-family: Primary;
+  src: url("./assets/fonts/OpenSans-VariableFont_wdth,wght.ttf");
+}
+
+@font-face {
+  font-family: PrimaryItalic;
+  src: url("./assets/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf");
+}
+
+@font-face {
+  font-family: LuxRoman;
+  src: url("./assets/fonts/LuxuriousRoman-Regular.ttf");
+}
