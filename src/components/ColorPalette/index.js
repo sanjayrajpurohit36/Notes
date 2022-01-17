@@ -1,27 +1,32 @@
+import { useState } from "react";
 import colors from "./../../utils/colors.json";
 import "./index.css";
 
 const ColorPalette = (props) => {
-  const {
-    selectedColor,
-    onColorClick = () => {},
-    title = "",
-    className = "",
-  } = props;
+  const { onColorClick = () => {}, title = "", className = "" } = props;
+  const [clickedColorCode, setColorCode] = useState("");
+
+  const handleColorClick = (code) => {
+    onColorClick(code);
+    setColorCode(code);
+  };
 
   return (
     <section className={`color-tag-wrapper ${className}`}>
-      <p>{title}</p>
+      <span className="color-tag-wrapper--title">{title}</span>
       {Object.keys(colors).map((value, key) => {
+        console.log(colors[value]);
         return (
           <div
-            className="circle"
+            className="color-tag-wrapper--circle"
             key={value}
+            id={colors[value]}
             style={{
               background: colors[value],
-              border: selectedColor === colors[value] ? "2px solid black" : "",
+              border:
+                clickedColorCode === colors[value] ? "2px solid black" : "",
             }}
-            onClick={(e) => onColorClick("", colors[e.target.id])}
+            onClick={(e) => handleColorClick(e.target.id)}
           ></div>
         );
       })}
