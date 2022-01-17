@@ -4,6 +4,7 @@ import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import Overlay from "./../../components/Overlay";
 import colors from "./../../utils/colors.json";
+import imageConstant from "./../../constants/assetConstant";
 
 import "./index.css";
 
@@ -14,6 +15,7 @@ const HomePage = () => {
   const [isShowSideModal, setIsShowSideModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const myRef = useRef(null);
+  const { emptyIcon } = imageConstant;
   const toggleSideModal = () => {
     setIsShowSideModal(!isShowSideModal);
   };
@@ -28,7 +30,6 @@ const HomePage = () => {
 
   const searchNotes = (searchText, color) => {
     colorCode = color;
-
     let searchedNotes = taskData;
     if (searchText.trim().length > 0) {
       searchedNotes = searchedNotes.filter((value, key) =>
@@ -40,16 +41,16 @@ const HomePage = () => {
     }
 
     if (color.length > 0) {
-      console.log("=>", color, Object.keys(colors), Object.values(colors));
       searchedNotes = searchedNotes.filter(
         (value, key) => value["color"] === color
       );
     }
 
-    setFilteredData(searchedNotes);
+    // if no color is selected & no text is searched.
     if (color.length === 0 && searchText.length === 0) {
       setFilteredData(taskData);
     }
+    setFilteredData(searchedNotes);
   };
 
   const resetFilters = () => {
@@ -80,15 +81,20 @@ const HomePage = () => {
     );
   };
 
-  const showMessage = () => {
-    return taskData && taskData.length > 0 ? (
-      <div className="no-data-found-wrapper">
-        <h1> Oops! No Data Found</h1>
-        <p>Please try searching another data.</p>
-      </div>
-    ) : (
-      <div>
-        <h1>Try adding tasks!</h1>
+  const showEmptyDataMessage = () => {
+    const displayMessageObj = {
+      true: "Add your notes!",
+      false: "No notes exist!",
+    };
+    return (
+      <div className="notes-icon-wrapper">
+        <img src={emptyIcon} alt="notes icon" />
+        {(!filteredData.length || !taskData.length) && (
+          <p className="no-data-message">
+            {displayMessageObj[taskData.length === 0] ||
+              displayMessageObj[!(filteredData.length === 0)]}
+          </p>
+        )}
       </div>
     );
   };
@@ -98,27 +104,31 @@ const HomePage = () => {
       <header className="header-container">
         <div className="header-content-wrapper">
           <div className="header-search-bar-btn-wrapper">
-            <input
-              className="header-search-input"
-              placeholder="Search"
-              name="taskdescription"
-              ref={myRef}
-              onChange={(e) => searchNotes(e.target.value.trim(), colorCode)}
-            ></input>
-            <Button
-              btnCallback={() => setIsShowSideModal(true)}
-              btnClassName="header-addTask-btn"
-            >
-              Add +
-            </Button>
+            <div className="header-search-wrapper">
+              <input
+                className="header-search-input"
+                placeholder="Search"
+                name="taskdescription"
+                ref={myRef}
+                onChange={(e) => searchNotes(e.target.value.trim(), colorCode)}
+              />
+            </div>
+            <div className="header-search-btn-wrapper">
+              <Button
+                btnCallback={() => setIsShowSideModal(true)}
+                btnClassName="header-addTask-btn"
+              >
+                Add +
+              </Button>
+              <Button
+                btnCallback={() => resetFilters(true)}
+                btnClassName="header-addTask-btn"
+              >
+                Reset
+              </Button>
+            </div>
           </div>
           {renderColorFilters()}
-          <Button
-            btnCallback={() => resetFilters(true)}
-            btnClassName="header-addTask-btn"
-          >
-            Reset
-          </Button>
         </div>
       </header>
 
@@ -127,16 +137,16 @@ const HomePage = () => {
         isShow={isShowSideModal}
         onClose={toggleSideModal}
       />
-      <div className="task-card-container">
-        {
-          <section className="card-list-container">
-            {filteredData && filteredData.length > 0
-              ? filteredData.map((value, key) => {
-                  return <Card data={value} key={key + "card"} />;
-                })
-              : showMessage()}
-          </section>
-        }
+      <div className="body-container">
+        {filteredData && filteredData.length === 0 ? (
+          showEmptyDataMessage()
+        ) : (
+          <>
+            {filteredData.map((value, key) => {
+              return <Card data={value} key={key + "card"} />;
+            })}
+          </>
+        )}
       </div>
     </>
   );
