@@ -2,12 +2,11 @@ import { useState, useRef } from "react";
 import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
-import ColorFilter from "../../components/ColorFilter";
+import ColorPalette from "../../components/ColorPalette";
 import imageConstant from "./../../constants/assetConstant";
-
 import "./index.css";
 
-let colorCode = "";
+let clickedColorCode = "";
 let taskData = [];
 
 const HomePage = () => {
@@ -23,12 +22,12 @@ const HomePage = () => {
     setIsShowSideModal(false);
     taskData.push(newTaskData);
     setFilteredData([...taskData]);
-    colorCode = "";
+    clickedColorCode = "";
     // localStorage.taskData = JSON.stringify(taskData);
   };
 
-  const searchNotes = (searchText, color) => {
-    colorCode = color;
+  const searchNotes = (searchText, colorCode) => {
+    clickedColorCode = colorCode;
     let searchedNotes = taskData;
     if (searchText.trim().length > 0) {
       searchedNotes = searchedNotes.filter((value, key) =>
@@ -39,14 +38,14 @@ const HomePage = () => {
       );
     }
 
-    if (color.length > 0) {
+    if (clickedColorCode.length > 0) {
       searchedNotes = searchedNotes.filter(
-        (value, key) => value["color"] === color
+        (value, key) => value["color"] === clickedColorCode
       );
     }
 
     // if no color is selected & no text is searched.
-    if (color.length === 0 && searchText.length === 0) {
+    if (clickedColorCode.length === 0 && searchText.length === 0) {
       setFilteredData(taskData);
     }
     setFilteredData(searchedNotes);
@@ -55,7 +54,7 @@ const HomePage = () => {
   const resetFilters = () => {
     myRef.current.value = "";
     setFilteredData(taskData);
-    colorCode = "";
+    clickedColorCode = "";
   };
 
   const showEmptyDataMessage = () => {
@@ -87,7 +86,9 @@ const HomePage = () => {
                 placeholder="Search"
                 name="taskdescription"
                 ref={myRef}
-                onChange={(e) => searchNotes(e.target.value.trim(), colorCode)}
+                onChange={(e) =>
+                  searchNotes(e.target.value.trim(), clickedColorCode)
+                }
               />
             </div>
             <div className="header-search-btn-wrapper">
@@ -105,7 +106,13 @@ const HomePage = () => {
               </Button>
             </div>
           </div>
-          <ColorFilter />
+          <ColorPalette
+            title={"Color Filter"}
+            className="header-color-filter"
+            onColorClick={(colorCode) => {
+              searchNotes("", colorCode);
+            }}
+          />
         </div>
       </header>
 
