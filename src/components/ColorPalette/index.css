@@ -11,7 +11,7 @@
   cursor: pointer;
   border-radius: 50%;
 }
-.color-tag-wrapper--circle--selected {
+.--selected {
   border: 2px solid #000;
 }
 

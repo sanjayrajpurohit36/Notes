@@ -17,7 +17,7 @@ const ColorPalette = (props) => {
       {Object.keys(colors).map((value, key) => {
         return (
           <div
-            className={`color-tag-wrapper--circle${
+            className={`color-tag-wrapper--circle ${
               clickedColorCode === colors[value] ? "--selected" : ""
             }`}
             key={value}
