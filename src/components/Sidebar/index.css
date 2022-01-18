@@ -28,22 +28,8 @@
   margin-top: 2rem;
 }
 
-.color-tag-wrapper {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  padding: 1rem;
-}
-
 .submit-btn-wrapper {
   padding: 1rem;
-}
-
-.circle {
-  height: 1.5rem;
-  width: 1.5rem;
-  cursor: pointer;
-  border-radius: 50%;
 }
 
 .close-icon {
@@ -65,7 +51,6 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  /* background: red; */
   gap: 0.5rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
@@ -84,14 +69,19 @@
 .input {
   padding: 0.5rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem 0.6rem;
   outline: none;
   width: 100%;
+  font: 600 1rem LuxRoman;
+  letter-spacing: 0.09rem;
 }
 
-.btn {
-  padding: 0.5rem;
+.description-textarea {
+  height: 200px;
+  resize: none;
+}
+
+.submit-btn {
   border: none;
   outline: none;
-  border-radius: 0.5rem;
 }

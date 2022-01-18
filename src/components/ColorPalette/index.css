@@ -1,0 +1,21 @@
+.color-tag-wrapper {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  font: 600 1.2rem LRoman;
+}
+
+.color-tag-wrapper--circle {
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .color-tag-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
+}
