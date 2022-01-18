@@ -11,6 +11,9 @@
   cursor: pointer;
   border-radius: 50%;
 }
+.color-tag-wrapper--circle--selected {
+  border: 2px solid #000;
+}
 
 @media only screen and (max-width: 768px) {
   .color-tag-wrapper {
