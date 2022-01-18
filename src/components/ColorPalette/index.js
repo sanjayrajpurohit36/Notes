@@ -15,17 +15,14 @@ const ColorPalette = (props) => {
     <section className={`color-tag-wrapper ${className}`}>
       <span className="color-tag-wrapper--title">{title}</span>
       {Object.keys(colors).map((value, key) => {
-        console.log(colors[value]);
         return (
           <div
-            className="color-tag-wrapper--circle"
+            className={`color-tag-wrapper--circle ${
+              clickedColorCode === colors[value] ? "--selected" : ""
+            }`}
             key={value}
             id={colors[value]}
-            style={{
-              background: colors[value],
-              border:
-                clickedColorCode === colors[value] ? "2px solid black" : "",
-            }}
+            style={{ background: colors[value] }}
             onClick={(e) => handleColorClick(e.target.id)}
           ></div>
         );

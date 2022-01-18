@@ -3,6 +3,7 @@ import Button from "./../../components/Button";
 import Sidebar from "./../../components/Sidebar";
 import Card from "./../../components/Card";
 import ColorPalette from "../../components/ColorPalette";
+import Header from "./../../components/Header";
 import imageConstant from "./../../constants/assetConstant";
 import "./index.css";
 
@@ -75,47 +76,50 @@ const HomePage = () => {
     );
   };
 
+  const renderHeader = () => {
+    return (
+      <>
+        <div className="header-search-bar-btn-wrapper">
+          <div className="header-search-wrapper">
+            <input
+              className="header-search-input"
+              placeholder="Search"
+              name="taskdescription"
+              ref={myRef}
+              onChange={(e) =>
+                searchNotes(e.target.value.trim(), clickedColorCode)
+              }
+            />
+          </div>
+          <div className="header-search-btn-wrapper">
+            <Button
+              btnCallback={() => setIsShowSideModal(true)}
+              btnClassName="header-addTask-btn"
+            >
+              Add +
+            </Button>
+            <Button
+              btnCallback={() => resetFilters(true)}
+              btnClassName="header-addTask-btn"
+            >
+              Reset
+            </Button>
+          </div>
+        </div>
+        <ColorPalette
+          title={"Color Filter"}
+          className="header-color-filter"
+          onColorClick={(colorCode) => {
+            searchNotes("", colorCode);
+          }}
+        />
+      </>
+    );
+  };
+
   return (
     <>
-      <header className="header-container">
-        <div className="header-content-wrapper">
-          <div className="header-search-bar-btn-wrapper">
-            <div className="header-search-wrapper">
-              <input
-                className="header-search-input"
-                placeholder="Search"
-                name="taskdescription"
-                ref={myRef}
-                onChange={(e) =>
-                  searchNotes(e.target.value.trim(), clickedColorCode)
-                }
-              />
-            </div>
-            <div className="header-search-btn-wrapper">
-              <Button
-                btnCallback={() => setIsShowSideModal(true)}
-                btnClassName="header-addTask-btn"
-              >
-                Add +
-              </Button>
-              <Button
-                btnCallback={() => resetFilters(true)}
-                btnClassName="header-addTask-btn"
-              >
-                Reset
-              </Button>
-            </div>
-          </div>
-          <ColorPalette
-            title={"Color Filter"}
-            className="header-color-filter"
-            onColorClick={(colorCode) => {
-              searchNotes("", colorCode);
-            }}
-          />
-        </div>
-      </header>
-
+      <Header>{renderHeader()}</Header>
       <Sidebar
         onSubmitClick={(data) => getTaskData(data)}
         isShow={isShowSideModal}
